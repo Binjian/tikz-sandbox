@@ -1,0 +1,68 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+
+\begin{document}
+
+\makeatletter
+
+\pgfkeys{
+  /pgf/arrow keys/.cd,
+  Bidirectional/.style={
+    length = +1.05pt 1.925 1,
+    shear
+  },
+  shear/.code={
+    \pgfarrowsthreeparameters{#1}%
+    \expandafter\pgfarrowsaddtooptions\expandafter{\expandafter\pgfarrowslinewidthdependentnew\pgfarrowstheparameters\pgfarrowshear\pgf@x}%
+  },
+  shear/.default = +0pt -.5 -.5
+}
+\newdimen\pgfarrowshear
+\pgfarrowshear0pt
+\def\pgfarrowslinewidthdependentnew#1#2#3{%
+  \pgf@x#1%
+  \ifdim\pgfinnerlinewidth>0pt%
+    \pgf@arrows@inner@line@width@depnew{#2}{#3}%
+  \else%
+    \advance\pgf@x by#2\pgflinewidth%
+  \fi%
+}
+\def\pgf@arrows@inner@line@width@depnew#1#2{%
+  % #1 * outer line width + #2 * inner line width = our new one = the following
+  % (#1/2) * full line width + (#2-#1/2) * inner line width)
+  % Compute "real" line width
+  \pgf@xa.5\pgflinewidth%
+  \pgf@xa#1\pgf@xa%
+  \advance\pgf@x by\pgf@xa%
+  \pgf@xa\pgfinnerlinewidth%
+  \pgf@xb.5\pgf@xa%
+  \advance\pgf@x by#2\pgf@xa%
+  \advance\pgf@x by-#1\pgf@xb%
+}
+\def\pgf@arrow@drawer@shift#1#2#3{
+  \pgftransformyshift\pgfarrowshear%
+  \pgf@xb#2\pgftransformxshift{-\pgf@xb}%
+  \pgf@xc#1%
+  \advance\pgf@xc by\pgfarrowsep%
+  \advance\pgf@xc by-\pgf@xb%
+}
+
+\begin{tikzpicture}
+    \draw[-{>[sep=1pt]>}](1,1)->(3,1);
+\end{tikzpicture}
+
+\begin{tikzpicture}[>={Classical TikZ Rightarrow[length = +1.05pt 1.925 1]}]
+    \draw[double distance=3pt,-{>[shear=0pt .5 .5]>[shear]>[shear=0pt .5 .5]>[shear]}]
+        (1,1)->(3,1);
+\end{tikzpicture}
+
+\begin{tikzpicture}
+    \path(0,4)(4,0);
+    \node(A)at(1,3){A};
+    \node(B)at(3,1){B};
+    \draw[double,double distance=3pt,{<[Bidirectional]}-{>[Bidirectional]},bend left]
+        (A)to(B){};
+\end{tikzpicture}
+
+\end{document}

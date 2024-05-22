@@ -2,7 +2,7 @@
 % Author: David Fokkema
 \documentclass{standalone}
 \usepackage{tikz}
-\usetikzlibrary{arrows,shapes.multipart}
+\usetikzlibrary{arrows,quotes,shapes.multipart,arrows.meta}
 
 % Defines a `datastore' shape for use in DFDs.  This inherits from a
 % rectangle and only draws two horizontal lines.
@@ -45,12 +45,17 @@
   datastore/.style={draw,very thick,shape=datastore,inner sep=.3cm},
   dots/.style={gray,scale=2},
   to/.style={->,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize},
-  every node/.style={align=center}]
+  every edge/.style={draw,->,>=stealth',shorten <=1pt, shorten >=1pt,semithick,font=\sffamily\footnotesize},
+  every edge quotes/.style={auto,sloped},
+  every node/.style={align=center}
+]
+  %every edge/.style={->,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize},
+
 
   % Position the nodes using a matrix layout
   \matrix{
-    \& \node[process] (db) {Database};
-    \& \node[process] (nn) {Model}; \\
+    \& \node[sink] (db) {Database};
+    \& \node[process] (mo) {Model}; \\
     \node[process] (av) {Avatar};
     \& \node[process] (cr) {Cruncher};
     \& \node[process] (ag) {Agent}; \\
@@ -64,20 +69,24 @@
       \nodepart{lower}
       Cloud
     }; \& \\
-    \node[sink] (v) {Vehicle}; \&  \&\\
+    \node[source] (v) {Vehicle}; \&  \&\\
   };
 
-  %% Draw the arrows between the nodes and label them.
-  %\draw[to] (vehicle) -- node[midway,above] {raw events}
-  %    node[midway,below] {level 0} (daq);
-  %\draw[to] (daq) -- node[midway,right] {raw event data\\level 1} (buffer);
-  %\draw[to] (buffer) --
-  %    node[midway,right] {raw event data\\level 1} (monitor);
-  %\draw[to] (monitor) to[bend right=50] node[midway,above] {events}
-  %    node[midway,below] {level 1} (storage);
-  %\draw[to] (storage) to[bend right=50] node[midway,above] {events}
-  %    node[midway,below] {level 1} (monitor);
-  %\draw[to] (monitor) -- node[midway,above] {events}
-  %    node[midway,below] {level 1} (datastore);
+  % Draw the arrows between the nodes and label them.
+  \draw (db) edge ["raw" above, "level"'] (mo)
+        (mo) edge ["raw" above, "level"'] (ag);
+  \draw (av.2) edge [arrows={-Stealth[harpoon]},"raw"] (cr.178)
+        (cr.2) edge [arrows={-Stealth[harpoon]},"level"'] (ag.178);
+  \draw (ag.182) edge [arrows={-Stealth[harpoon]},"raw"] (cr.358)
+        (cr.182) edge [arrows={-Stealth[harpoon]},"level"'] (av.358);
+  \draw (cr) edge ["raw", "level"'] (db);
+  \draw (av.272) edge [arrows={-Stealth[harpoon]},"raw"] (kv.88)
+        (kv.92) edge [arrows={-Stealth[harpoon]},"level"] (av.268);
+  \draw (av.317) edge [arrows={-Stealth[harpoon]},"raw"'] (cl.133)
+        (cl.137) edge [arrows={-Stealth[harpoon]},"level"] (av.313);
+  \draw (kv.272) edge [arrows={-Stealth[harpoon]},"raw"] (v.88)
+        (v.92) edge [arrows={-Stealth[harpoon]},"level"] (kv.268);
+  \draw (v.47) edge [arrows={-Stealth[harpoon]},"raw"] (cl.223)
+        (cl.227) edge [arrows={-Stealth[harpoon]},"level"'] (v.43);
 \end{tikzpicture}
 \end{document}
