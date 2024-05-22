@@ -45,8 +45,8 @@
   datastore/.style={draw,very thick,shape=datastore,inner sep=.3cm},
   dots/.style={gray,scale=2},
   to/.style={->,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize},
-  every edge/.style={draw,->,>=stealth',shorten <=1pt, shorten >=1pt,semithick,font=\sffamily\footnotesize},
-  every edge quotes/.style={auto,sloped},
+  every edge/.style={draw,>=stealth,shorten <=1pt, shorten >=1pt,semithick,font=\sffamily\footnotesize},
+  every edge quotes/.style={auto=left,sloped,font=\sffamily\footnotesize},
   every node/.style={align=center}
 ]
   %every edge/.style={->,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize},
@@ -54,6 +54,11 @@
 
   % Position the nodes using a matrix layout
   \matrix{
+    \node[multimodal] (cl) {
+      Cloud
+      \nodepart{lower}
+      OSS
+    };
     \& \node[sink] (db) {Database};
     \& \node[process] (mo) {Model}; \\
     \node[process] (av) {Avatar};
@@ -64,29 +69,22 @@
       \nodepart{lower}
       Kvaser
     };
-    \& \node[multimodal] (cl) {
-      Remote
-      \nodepart{lower}
-      Cloud
-    }; \& \\
-    \node[source] (v) {Vehicle}; \&  \&\\
+    \&
+    \& \\
+    \node[source] (v) {VCU}; \&  \&\\
   };
 
   % Draw the arrows between the nodes and label them.
   \draw (db) edge ["raw" above, "level"'] (mo)
         (mo) edge ["raw" above, "level"'] (ag);
-  \draw (av.2) edge [arrows={-Stealth[harpoon]},"raw"] (cr.178)
+  \draw (av.2) edge [arrows={-Stealth[harpoon]},"Pipeline"] (cr.178)
         (cr.2) edge [arrows={-Stealth[harpoon]},"level"'] (ag.178);
   \draw (ag.182) edge [arrows={-Stealth[harpoon]},"raw"] (cr.358)
-        (cr.182) edge [arrows={-Stealth[harpoon]},"level"'] (av.358);
+        (cr.182) edge [arrows={-Stealth[harpoon]},"\texttt{\string[Dataframe\string]}"'] (av.358);
   \draw (cr) edge ["raw", "level"'] (db);
-  \draw (av.272) edge [arrows={-Stealth[harpoon]},"raw"] (kv.88)
-        (kv.92) edge [arrows={-Stealth[harpoon]},"level"] (av.268);
-  \draw (av.317) edge [densely dash dot dot,arrows={-Stealth[harpoon]},"raw"'] (cl.133)
-        (cl.137) edge [densely dash dot dot,arrows={-Stealth[harpoon]},"level"] (av.313);
-  \draw (kv.272) edge [arrows={-Stealth[harpoon]},"raw"] (v.88)
-        (v.92) edge [arrows={-Stealth[harpoon]},"level"] (kv.268);
-  \draw (v.47) edge [densely dash dot dot,bend left,arrows={-Stealth[harpoon]},"raw"] (cl.223)
-        (cl.227) edge [densely dash dot dot,bend right,arrows={-Stealth[harpoon]},"level"'] (v.43);
+  \draw (kv) edge [<->,"KvaserCAN"] (av);
+  \draw (av) edge [<->,densely dashed,"RemoteCAN"] (cl);
+  \draw (v) edge [<->,"CAN/UDP"] (kv);
+  \draw (cl.227) edge [<->, densely dash dot dot,bend right,"TBox"] (v.133);
 \end{tikzpicture}
 \end{document}
