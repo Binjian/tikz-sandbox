@@ -22,6 +22,8 @@
   \inheritanchor[from=rectangle]{north west}
   \backgroundpath{
     %  store lower right in xa/ya and upper right in xb/yb
+    \pgfset{outer xsep=1.5cm}
+    \pgfset{outer ysep=1.5cm}
     \southwest \pgf@xa=\pgf@x \pgf@ya=\pgf@y
     \northeast \pgf@xb=\pgf@x \pgf@yb=\pgf@y
     \pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@ya}}
