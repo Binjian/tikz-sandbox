@@ -2,7 +2,7 @@
 % Author: David Fokkema
 \documentclass{standalone}
 \usepackage{tikz}
-\usetikzlibrary{arrows,shapes.multipart}
+\usetikzlibrary{arrows}
 
 % Defines a `datastore' shape for use in DFDs.  This inherits from a
 % rectangle and only draws two horizontal lines.
@@ -22,8 +22,6 @@
   \inheritanchor[from=rectangle]{north west}
   \backgroundpath{
     %  store lower right in xa/ya and upper right in xb/yb
-    \pgfset{outer xsep=1.5cm}
-    \pgfset{outer ysep=1.5cm}
     \southwest \pgf@xa=\pgf@x \pgf@ya=\pgf@y
     \northeast \pgf@xb=\pgf@x \pgf@yb=\pgf@y
     \pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@ya}}
@@ -40,7 +38,6 @@
   every matrix/.style={ampersand replacement=\&,column sep=2cm,row sep=2cm},
   source/.style={draw,thick,rounded corners,fill=yellow!20,inner sep=.3cm},
   process/.style={draw,thick,circle,fill=blue!20},
-  multimodal/.style={circle split,draw,double,fill=blue!20},
   sink/.style={source,fill=green!20},
   datastore/.style={draw,very thick,shape=datastore,inner sep=.3cm},
   dots/.style={gray,scale=2},
@@ -49,35 +46,27 @@
 
   % Position the nodes using a matrix layout
   \matrix{
-    \& \node[process] (db) {Database};
-    \& \node[process] (nn) {Model}; \\
-    \node[process] (av) {Avatar};
-    \& \node[process] (cr) {Cruncher};
-    \& \node[process] (ag) {Agent}; \\
-    \node[multimodal] (kv) {
-      Local
-      \nodepart{lower}
-      Kvaser
-    };
-    \& \node[multimodal] (cl) {
-      Remote
-      \nodepart{lower}
-      Cloud
-    }; \& \\
-    \node[sink] (v) {Vehicle}; \&  \&\\
+    \node[source] (hisparcbox) {electronics};
+      \& \node[process] (daq) {DAQ}; \& \\
+
+    \& \node[datastore] (buffer) {buffer}; \& \\
+
+    \node[datastore] (storage) {storage};
+      \& \node[process] (monitor) {monitor};
+      \& \node[sink] (datastore) {datastore}; \\
   };
 
-  %% Draw the arrows between the nodes and label them.
-  %\draw[to] (vehicle) -- node[midway,above] {raw events}
-  %    node[midway,below] {level 0} (daq);
-  %\draw[to] (daq) -- node[midway,right] {raw event data\\level 1} (buffer);
-  %\draw[to] (buffer) --
-  %    node[midway,right] {raw event data\\level 1} (monitor);
-  %\draw[to] (monitor) to[bend right=50] node[midway,above] {events}
-  %    node[midway,below] {level 1} (storage);
-  %\draw[to] (storage) to[bend right=50] node[midway,above] {events}
-  %    node[midway,below] {level 1} (monitor);
-  %\draw[to] (monitor) -- node[midway,above] {events}
-  %    node[midway,below] {level 1} (datastore);
+  % Draw the arrows between the nodes and label them.
+  \draw[to] (hisparcbox) -- node[midway,above] {raw events}
+      node[midway,below] {level 0} (daq);
+  \draw[to] (daq) -- node[midway,right] {raw event data\\level 1} (buffer);
+  \draw[to] (buffer) --
+      node[midway,right] {raw event data\\level 1} (monitor);
+  \draw[to] (monitor) to[bend right=50] node[midway,above] {events}
+      node[midway,below] {level 1} (storage);
+  \draw[to] (storage) to[bend right=50] node[midway,above] {events}
+      node[midway,below] {level 1} (monitor);
+  \draw[to] (monitor) -- node[midway,above] {events}
+      node[midway,below] {level 1} (datastore);
 \end{tikzpicture}
 \end{document}
