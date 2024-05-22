@@ -5,12 +5,13 @@
   level 1/.style = { level distance = 8mm,
                      sibling distance = 20mm },
   level 2/.style = { level distance = 10mm,
-                     sibling distance = 20mm }, 
+                     sibling distance = 20mm },
   treenode/.style = {shape = rectangle,
     rounded corners, draw,
     top color=white, bottom color=blue!30},
   every child node/.style = {treenode},
-  engine/.style = {inner sep = 1pt, font=\tiny, above}
+  engine/.style = {inner sep = 1pt, font=\tiny, above},
+  grow = up
 ]
 \node [treenode] {\TeX}
   child { node {\LaTeX}

@@ -15,7 +15,7 @@
   \draw (A) edge [bridge] node [number] {1} (B);
   \node[vertex, below = 2cm of A] (C) {C};
   \node[vertex, above = 2cm of A] (D) {D};
-  \tikzset{bridge/.append style = {bend right}}
+  \tikzset{bridge/.append style = {bend left}}
   \draw (C) edge [bridge] node [number] {2} (B)
         (B) edge [bridge] node [number] {3} (D)
         (C) edge [bridge] node [number] {4} (A)

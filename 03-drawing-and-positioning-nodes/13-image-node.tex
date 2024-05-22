@@ -2,9 +2,9 @@
 \usetikzlibrary{positioning}
 \begin{document}
 \begin{tikzpicture}
-  \node (router) [inner sep=0pt]
+  \node (router) [inner sep=0pt, label = above: R]
     {\includegraphics[width=2cm]{router.pdf}};
-  \node (switch) [inner sep=0pt, right = of router]
+  \node (switch) [inner sep=0pt, right = of router, pin = below: S]
     {\includegraphics[width=2cm]{switch.pdf}};
   \draw[double] (router) -- (switch);
 \end{tikzpicture}

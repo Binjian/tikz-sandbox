@@ -1,0 +1,22 @@
+\documentclass[border=10pt]{standalone}
+\usepackage{tikz}
+\usepackage{tikzlings}
+\tikzset{mygrid/.pic={
+    \draw[thin,dotted] (-3,-3) grid (3,3);
+  \draw[->] (-3,0) -- (3,0);
+  \draw[->] (0,-3) -- (0,3);},
+ bear/.pic={\bear},
+ owl/.pic={\owl},
+ pig/.pic={\pig},
+ penguin/.pic={\penguin},
+ chicken/.pic={\chicken}}
+\begin{document}
+\begin{tikzpicture}
+\draw      pic{mygrid}
+   (-1,0)  pic{chicken}
+   (1,0)   pic{pig}
+   (-2,-2) pic{bear}
+   (0,-2)  pic{penguin}
+   (2,-2)  pic{owl};
+\end{tikzpicture}
+\end{document}

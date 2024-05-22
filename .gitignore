@@ -1,0 +1,16 @@
+*.log
+*.pdf
+*.aux
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+/.auctex-auto/
+/02-First-steps-creating-TikZ-images/.auctex-auto/
+/.DS_Store
+/03-drawing-and-positioning-nodes/.DS_Store
+/03-drawing-and-positioning-nodes/.auctex-auto/
+*.zip
+*.eps
+/04-drawing-edges-and-arrows/.auctex-auto/
+/05-using-styles-and-pics/.auctex-auto/
+/06-drawing-trees-graphs-charts/.auctex-auto/
