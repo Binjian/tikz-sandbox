@@ -75,16 +75,19 @@
   };
 
   % Draw the arrows between the nodes and label them.
-  \draw (db) edge ["raw" above, "level"'] (mo)
-        (mo) edge ["raw" above, "level"'] (ag);
-  \draw (av.2) edge [->,dotted,"Config.\&Sched."] (cr.178)
-        (cr.2) edge [arrows={-Stealth[harpoon]},"raw data"'] (ag.178);
-  \draw (ag.182) edge [arrows={-Stealth[harpoon]},"raw"] (cr.358);
-  \draw (kv.47) edge [arrows={-Stealth[harpoon]},"Pipeline\texttt{\string[CAN/Dataframe\string]}"] (cr.223)
-        (cr.227) edge [arrows={-Stealth[harpoon]},"Pipeline\texttt{\string[Dataframe/CAN\string]}"'] (kv.43);
-  \draw (cl.227) edge [arrows={-Stealth[harpoon]},"Pipeline\texttt{\string[CAN/Dataframe\string]}"] (cr.133)
-        (cr.137) edge [arrows={-Stealth[harpoon]},"Pipeline\texttt{\string[Dataframe/CAN\string]}"'] (cl.223);
-  \draw (cr) edge ["raw", "level"'] (db);
+  \draw (cr.2) edge [arrows={-Stealth[harpoon]},"observation\texttt{\string[Dataframe\string]}"] (ag.178)
+        (ag.182) edge [arrows={-Stealth[harpoon]},"action\texttt{\string[Dataframe\string]}"'] (cr.358);
+  \draw (kv.47) edge [arrows={-Stealth[harpoon]},"Pipeline\texttt{\string[json/Dataframe\string]}"] (cr.223)
+        (cr.227) edge [arrows={-Stealth[harpoon]},"Pipeline\texttt{\string[Dataframe/json\string]}"'] (kv.43);
+  \draw (cl.227) edge [arrows={-Stealth[harpoon]},"Pipeline\texttt{\string[json/Dataframe\string]}"] (cr.133)
+        (cr.137) edge [arrows={-Stealth[harpoon]},"Pipeline\texttt{\string[Dataframe/json\string]}"'] (cl.223);
+  \draw (db.276) edge [arrows={-Stealth[harpoon]},"Batches\texttt{\string[Dataframe\string]}"] (ag.133)
+        (ag.137) edge [arrows={-Stealth[harpoon]},"Episode\texttt{\string[Dataframe\string]}"'] (db.268);
+  \draw (ag.92) edge [arrows={-Stealth[harpoon]},"observation\texttt{\string[Dataframe\string]}"'] (mo.268)
+        (mo.272) edge [arrows={-Stealth[harpoon]},"Action\texttt{\string[Dataframe\string]}"'] (ag.88);
+  \draw (ag.0) edge [->,bend right,"Batches\texttt{\string[Dataframe\string]}"] (mo.0);
+  \draw (mo) edge[->,loop left,out=225,in=135, looseness=5] node[font=\sffamily\tiny,right]{Train} (mo);
+  \draw (av.2) edge [->,dotted,"Config.\&Sched."] (cr.178);
   \draw (kv) edge [<-,dotted,"config.\&sched."] (av);
   \draw (av) edge [->,dotted,"config.\&sched."] (cl);
   \draw (v) edge [<->,"CAN" above, "UDP" below] (kv);
