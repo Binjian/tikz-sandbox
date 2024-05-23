@@ -38,10 +38,10 @@
 \begin{tikzpicture}[
   font=\sffamily,
   every matrix/.style={ampersand replacement=\&,column sep=2cm,row sep=2cm},
-  source/.style={draw,thick,rounded corners,fill=yellow!20,inner sep=.3cm},
+  hw/.style={draw,thick,rounded corners,fill=yellow!20,inner sep=.3cm},
   process/.style={draw,thick,circle,fill=blue!20},
   multimodal/.style={circle split,draw,double,fill=blue!20},
-  sink/.style={source,fill=green!20},
+  sink/.style={hw,fill=green!20},
   datastore/.style={draw,very thick,shape=datastore,inner sep=.3cm},
   dots/.style={gray,scale=2},
   to/.style={->,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize},
@@ -71,7 +71,7 @@
     };
     \&
     \& \\
-    \node[source] (v) {VCU}; \&  \&\\
+    \node[hw] (v) {VCU}; \&  \&\\
   };
 
   % Draw the arrows between the nodes and label them.
@@ -85,6 +85,6 @@
   \draw (kv) edge [<->,"KvaserCAN"] (av);
   \draw (av) edge [<->,densely dashed,"RemoteCAN"] (cl);
   \draw (v) edge [<->,"CAN/UDP"] (kv);
-  \draw (cl.227) edge [<->, densely dash dot dot,bend right,"TBox" very near end, "OTA"] (v.133);
+  \draw (cl.227) edge [<->, densely dash dot dot,bend right,"OTA"] node[hw,solid,very near end, sloped, below,]{TBox} (v.133);
 \end{tikzpicture}
 \end{document}
