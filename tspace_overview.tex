@@ -85,6 +85,6 @@
   \draw (kv) edge [<->,"KvaserCAN"] (av);
   \draw (av) edge [<->,densely dashed,"RemoteCAN"] (cl);
   \draw (v) edge [<->,"CAN/UDP"] (kv);
-  \draw (cl.227) edge [<->, densely dash dot dot,bend right,"TBox"] (v.133);
+  \draw (cl.227) edge [<->, densely dash dot dot,bend right,"TBox" very near end, "OTA"] (v.133);
 \end{tikzpicture}
 \end{document}
