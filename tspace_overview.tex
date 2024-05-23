@@ -46,7 +46,7 @@
   dots/.style={gray,scale=2},
   to/.style={->,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize},
   every edge/.style={draw,>=stealth,shorten <=1pt, shorten >=1pt,semithick,font=\sffamily\footnotesize},
-  every edge quotes/.style={auto=left,sloped,font=\sffamily\footnotesize},
+  every edge quotes/.style={auto=left,sloped,font=\sffamily\tiny},
   every node/.style={align=center}
 ]
   %every edge/.style={->,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize},
@@ -77,10 +77,10 @@
   % Draw the arrows between the nodes and label them.
   \draw (db) edge ["raw" above, "level"'] (mo)
         (mo) edge ["raw" above, "level"'] (ag);
-  \draw (av.2) edge [arrows={-Stealth[harpoon]},"Pipeline"] (cr.178)
+  \draw (av.2) edge [arrows={-Stealth[harpoon]},"Pipeline\texttt{\string[Dataframe\string]}"] (cr.178)
         (cr.2) edge [arrows={-Stealth[harpoon]},"level"'] (ag.178);
   \draw (ag.182) edge [arrows={-Stealth[harpoon]},"raw"] (cr.358)
-        (cr.182) edge [arrows={-Stealth[harpoon]},"\texttt{\string[Dataframe\string]}"'] (av.358);
+        (cr.182) edge [arrows={-Stealth[harpoon]},"data"'] (av.358);
   \draw (cr) edge ["raw", "level"'] (db);
   \draw (kv) edge [<->,"KvaserCAN"] (av);
   \draw (av) edge [<->,densely dashed,"RemoteCAN"] (cl);
