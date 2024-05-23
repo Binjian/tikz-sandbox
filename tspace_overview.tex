@@ -40,7 +40,7 @@
   every matrix/.style={ampersand replacement=\&,column sep=2cm,row sep=2cm},
   hw/.style={draw,thick,rounded corners,fill=yellow!20,inner sep=.3cm},
   process/.style={draw,thick,circle,fill=blue!20},
-  multimodal/.style={circle split,draw,double,fill=blue!20},
+  multimodal/.style={circle split,draw,double,fill=blue!20,font=\sffamily\tiny},
   sink/.style={hw,fill=green!20},
   datastore/.style={draw,very thick,shape=datastore,inner sep=.3cm},
   dots/.style={gray,scale=2},
@@ -54,10 +54,10 @@
 
   % Position the nodes using a matrix layout
   \matrix{
-    \node[multimodal] (cl) {
-      Cloud
+    \node[multimodal,rotate=90] (cl) {
+      Cloud OSS
       \nodepart{lower}
-      OSS
+      RemoteCAN
     };
     \& \node[sink] (db) {Database};
     \& \node[process] (mo) {Model}; \\
@@ -65,9 +65,9 @@
     \& \node[process] (cr) {Cruncher};
     \& \node[process] (ag) {Agent}; \\
     \node[multimodal] (kv) {
-      Local
+      KvaserCAN
       \nodepart{lower}
-      Kvaser
+      CAN/UDP svr
     };
     \&
     \& \\
@@ -77,14 +77,17 @@
   % Draw the arrows between the nodes and label them.
   \draw (db) edge ["raw" above, "level"'] (mo)
         (mo) edge ["raw" above, "level"'] (ag);
-  \draw (av.2) edge [arrows={-Stealth[harpoon]},"Pipeline\texttt{\string[Dataframe\string]}"] (cr.178)
-        (cr.2) edge [arrows={-Stealth[harpoon]},"level"'] (ag.178);
-  \draw (ag.182) edge [arrows={-Stealth[harpoon]},"raw"] (cr.358)
-        (cr.182) edge [arrows={-Stealth[harpoon]},"data"'] (av.358);
+  \draw (av.2) edge [->,dotted,"Config.\&Sched."] (cr.178)
+        (cr.2) edge [arrows={-Stealth[harpoon]},"raw data"'] (ag.178);
+  \draw (ag.182) edge [arrows={-Stealth[harpoon]},"raw"] (cr.358);
+  \draw (kv.47) edge [arrows={-Stealth[harpoon]},"Pipeline\texttt{\string[CAN/Dataframe\string]}"] (cr.223)
+        (cr.227) edge [arrows={-Stealth[harpoon]},"Pipeline\texttt{\string[Dataframe/CAN\string]}"'] (kv.43);
+  \draw (cl.227) edge [arrows={-Stealth[harpoon]},"Pipeline\texttt{\string[CAN/Dataframe\string]}"] (cr.133)
+        (cr.137) edge [arrows={-Stealth[harpoon]},"Pipeline\texttt{\string[Dataframe/CAN\string]}"'] (cl.223);
   \draw (cr) edge ["raw", "level"'] (db);
-  \draw (kv) edge [<->,"KvaserCAN"] (av);
-  \draw (av) edge [<->,densely dashed,"RemoteCAN"] (cl);
-  \draw (v) edge [<->,"CAN/UDP"] (kv);
-  \draw (cl.227) edge [<->, densely dash dot dot,bend right,"OTA"] node[hw,solid,very near end, sloped, below,]{TBox} (v.133);
+  \draw (kv) edge [<-,dotted,"config.\&sched."] (av);
+  \draw (av) edge [->,dotted,"config.\&sched."] (cl);
+  \draw (v) edge [<->,"CAN" above, "UDP" below] (kv);
+  \draw (cl.137) edge [<->, densely dash dot dot,bend right,"OTA"] node[hw,solid,very near end, sloped, below,]{TBox} (v.133);
 \end{tikzpicture}
 \end{document}
