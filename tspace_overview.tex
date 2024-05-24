@@ -2,7 +2,7 @@
 % Author: David Fokkema
 \documentclass{standalone}
 \usepackage{tikz}
-\usetikzlibrary{arrows,quotes,shapes.multipart,arrows.meta}
+\usetikzlibrary{arrows,quotes,shapes.multipart,arrows.meta,matrix}
 
 % Defines a `datastore' shape for use in DFDs.  This inherits from a
 % rectangle and only draws two horizontal lines.
@@ -38,7 +38,7 @@
 \begin{tikzpicture}[
   font=\sffamily,
   every matrix/.style={ampersand replacement=\&,column sep=2cm,row sep=2cm},
-  hw/.style={draw,thick,rounded corners,fill=yellow!20,inner sep=.3cm},
+  hw/.style={draw,thick,minimum width=2cm,minimum height=1cm,rounded corners,fill=yellow!20,inner sep=.3cm},
   process/.style={draw,thick,circle,fill=blue!20},
   multimodal/.style={circle split,draw,double,fill=blue!20,font=\sffamily\tiny},
   sink/.style={hw,fill=green!20},
@@ -46,51 +46,50 @@
   dots/.style={gray,scale=2},
   to/.style={->,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize},
   every edge/.style={draw,>=stealth,shorten <=1pt, shorten >=1pt,semithick,font=\sffamily\footnotesize},
-  every edge quotes/.style={auto=left,sloped,font=\sffamily\tiny},
+  every edge quotes/.style={auto=left,sloped,font=\sffamily\small},
   every node/.style={align=center}
 ]
   %every edge/.style={->,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize},
 
 
   % Position the nodes using a matrix layout
-  \matrix{
-    \node[multimodal,rotate=90] (cl) {
-      Cloud OSS
-      \nodepart{lower}
-      RemoteCAN
-    };
-    \& \node[sink] (db) {Database};
-    \& \node[process] (mo) {Model}; \\
-    \node[process] (av) {Avatar};
-    \& \node[process] (cr) {Cruncher};
-    \& \node[process] (ag) {Agent}; \\
-    \node[multimodal] (kv) {
+  \matrix (m) [matrix of nodes,
+      row sep = 2em, column sep = 2em,
+      minimum size=2cm]{
+    |[multimodal,rotate=90] (cl)| {
+      Cloud OSS \nodepart{lower}
+    } RemoteCAN
+    \& |[sink] (db)| {Database}
+    \& |[process] (mo)| {Model} \\
+    |[process] (av)| {Avatar}
+    \& |[process] (cr)| {Cruncher}
+    \& |[process] (ag)| {Agent} \\
+    |[multimodal] (kv)| {
       KvaserCAN
       \nodepart{lower}
-      CAN/UDP svr
-    };
+    } CAN/UDP server
     \&
     \& \\
-    \node[hw] (v) {VCU}; \&  \&\\
+    |[hw] (v)| {VCU} \&  \&\\
   };
 
   % Draw the arrows between the nodes and label them.
-  \draw (cr.2) edge [arrows={-Stealth[harpoon]},"observation\texttt{\string[Dataframe\string]}"] (ag.178)
-        (ag.182) edge [arrows={-Stealth[harpoon]},"action\texttt{\string[Dataframe\string]}"'] (cr.358);
-  \draw (kv.47) edge [arrows={-Stealth[harpoon]},"Pipeline\texttt{\string[json/Dataframe\string]}"] (cr.223)
-        (cr.227) edge [arrows={-Stealth[harpoon]},"Pipeline\texttt{\string[Dataframe/json\string]}"'] (kv.43);
-  \draw (cl.227) edge [arrows={-Stealth[harpoon]},"Pipeline\texttt{\string[json/Dataframe\string]}"] (cr.133)
-        (cr.137) edge [arrows={-Stealth[harpoon]},"Pipeline\texttt{\string[Dataframe/json\string]}"'] (cl.223);
-  \draw (db.276) edge [arrows={-Stealth[harpoon]},"Batches\texttt{\string[Dataframe\string]}"] (ag.133)
-        (ag.137) edge [arrows={-Stealth[harpoon]},"Episode\texttt{\string[Dataframe\string]}"'] (db.268);
-  \draw (ag.92) edge [arrows={-Stealth[harpoon]},"observation\texttt{\string[Dataframe\string]}"'] (mo.268)
-        (mo.272) edge [arrows={-Stealth[harpoon]},"Action\texttt{\string[Dataframe\string]}"'] (ag.88);
-  \draw (ag.0) edge [->,bend right,"Batches\texttt{\string[Dataframe\string]}"] (mo.0);
-  \draw (mo) edge[->,loop left,out=225,in=135, looseness=5] node[font=\sffamily\tiny,right]{Train} (mo);
-  \draw (av.2) edge [->,dotted,"Config.\&Sched."] (cr.178);
-  \draw (kv) edge [<-,dotted,"config.\&sched."] (av);
+  \draw (cr.2) edge [arrows={-Stealth[harpoon]},"observation\\\texttt{\string[Dataframe\string]}",midway,align=center] (ag.178)
+        (ag.182) edge [arrows={-Stealth[harpoon]},"action\\\texttt{\string[Dataframe\string]}"',midway,align=center] (cr.358);
+  \draw (kv.47) edge [arrows={-Stealth[harpoon]},"Pipeline\\\texttt{\string[json/Dataframe\string]}",midway,align=center] (cr.223)
+        (cr.227) edge [arrows={-Stealth[harpoon]},"Pipeline\\\texttt{\string[Dataframe/json\string]}"',midway,align=center] (kv.43);
+  \draw (cl.227) edge [arrows={-Stealth[harpoon]},"Pipeline\\\texttt{\string[json/Dataframe\string]}",midway,align=center] (cr.133)
+        (cr.137) edge [arrows={-Stealth[harpoon]},"Pipeline\\\texttt{\string[Dataframe/json\string]}"',midway,align=center] (cl.223);
+  \draw (db.276) edge [arrows={-Stealth[harpoon]},"Batches\\\texttt{\string[Dataframe\string]}",midway,align=center] (ag.133)
+        (ag.137) edge [arrows={-Stealth[harpoon]},"Episode\\\texttt{\string[Dataframe\string]}"',midway,align=center,pos=0.65] (db.268);
+  \draw (ag.92) edge [arrows={-Stealth[harpoon]},"observation\\\texttt{\string[Dataframe\string]}"',midway,align=center] (mo.268)
+        (mo.272) edge [arrows={-Stealth[harpoon]},"Action\\\texttt{\string[Dataframe\string]}"',midway,align=center] (ag.88);
+  \draw (ag.0) edge [->,bend right,"Batches\\\texttt{\string[Dataframe\string]}"',midway,align=center] (mo.0);
+  \draw (mo) edge[->,loop left,out=225,in=135, looseness=5] node[font=\sffamily\small,right]{Train} (mo);
+  \draw (av.2) edge [->,dotted,"Config.\&Sched." below,font=\sffamily\footnotesize] (cr.178);
+  \draw (kv) edge [<-,dotted,"config.\&sched.",font=\sffamily\tiny] (av);
   \draw (av) edge [->,dotted,"config.\&sched."] (cl);
   \draw (v) edge [<->,"CAN" above, "UDP" below] (kv);
-  \draw (cl.137) edge [<->, densely dash dot dot,bend right,"OTA"] node[hw,solid,very near end, sloped, below,]{TBox} (v.133);
+  \draw (cl.137) edge [<->, densely dash dot dot,bend right,"OTA"] node[hw,minimum width=1cm,minimum height=0.5cm,solid,very near end, sloped,]{TBox} (v.133);
 \end{tikzpicture}
 \end{document}

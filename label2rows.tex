@@ -1,0 +1,12 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{quotes, positioning}
+
+\begin{document}
+\begin{tikzpicture}
+  \node[circle,draw] (A) at (0,0) {A};
+  \node[circle,draw] (B) at (2,2) {B};
+  %\draw (A) -- (B) node[midway, above, align=center] {First row\\Second row};
+  \draw (A) edge ["First row\\Second row",midway, above, align=center]  (B);
+\end{tikzpicture}
+\end{document}
