@@ -2,7 +2,7 @@
 % Author: David Fokkema
 \documentclass{standalone}
 \usepackage{tikz}
-\usetikzlibrary{arrows,quotes,shapes.multipart,arrows.meta,matrix}
+\usetikzlibrary{arrows,quotes,shapes.multipart,arrows.meta,matrix,shapes.geometric}
 
 % Defines a `datastore' shape for use in DFDs.  This inherits from a
 % rectangle and only draws two horizontal lines.
@@ -34,6 +34,19 @@
 }
 \makeatother
 
+\tikzset{
+  database_plate/.style={
+    cylinder,draw,rotate=90,minimum width=1.5cm,path picture=
+    {
+      \draw (path picture bounding box.160) to[out=180,in=180,looseness=0.3] (path picture bounding box.20);
+      \draw (path picture bounding box.200) to[out=180,in=180,looseness=0.3] (path picture bounding box.340);
+    }
+  },
+  database/.style={
+    cylinder,shading=axis,shading angle=0,top color=yellow!10,bottom color=yellow!60,draw,rotate=90,minimum width=1.5cm
+  }
+}
+
 \begin{document}
 \begin{tikzpicture}[
   font=\sffamily,
@@ -59,7 +72,7 @@
     |[multimodal,rotate=90] (cl)| {
       Cloud OSS \nodepart{lower}
     } RemoteCAN
-    \& |[sink] (db)| {Database}
+    \& |[database] (db)| {Database}
     \& |[process] (mo)| {Model} \\
     |[process] (av)| {Avatar}
     \& |[process] (cr)| {Cruncher}
