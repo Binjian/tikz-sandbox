@@ -88,20 +88,20 @@
 
   % Draw the arrows between the nodes and label them.
   \draw (cr.2) edge [arrows={-Stealth[harpoon]},"observation\\\texttt{\string[Dataframe\string]}",midway,align=center] (ag.178)
-        (ag.182) edge [arrows={-Stealth[harpoon]},"action\\\texttt{\string[Dataframe\string]}"',midway,align=center] (cr.358);
+        (ag.182) edge [arrows={-Stealth[harpoon]},"\texttt{\string[Dataframe\string]}\\action"',midway,align=center] (cr.358);
   \draw (kv.47) edge [arrows={-Stealth[harpoon]},"Pipeline\\\texttt{\string[json/Dataframe\string]}",midway,align=center] (cr.223)
-        (cr.227) edge [arrows={-Stealth[harpoon]},"Pipeline\\\texttt{\string[Dataframe/json\string]}"',midway,align=center] (kv.43);
+        (cr.227) edge [arrows={-Stealth[harpoon]},"\texttt{\string[Dataframe/json\string]}\\Pipeline"',midway,align=center] (kv.43);
   \draw (cl.227) edge [arrows={-Stealth[harpoon]},"Pipeline\\\texttt{\string[json/Dataframe\string]}",midway,align=center] (cr.133)
-        (cr.137) edge [arrows={-Stealth[harpoon]},"Pipeline\\\texttt{\string[Dataframe/json\string]}"',midway,align=center] (cl.223);
-  \draw (db.276) edge [arrows={-Stealth[harpoon]},"Batches\\\texttt{\string[Dataframe\string]}",midway,align=center] (ag.133)
-        (ag.137) edge [arrows={-Stealth[harpoon]},"Episode\\\texttt{\string[Dataframe\string]}"',midway,align=center,pos=0.65] (db.268);
-  \draw (ag.92) edge [arrows={-Stealth[harpoon]},"observation\\\texttt{\string[Dataframe\string]}"',midway,align=center] (mo.268)
-        (mo.272) edge [arrows={-Stealth[harpoon]},"Action\\\texttt{\string[Dataframe\string]}"',midway,align=center] (ag.88);
-  \draw (ag.0) edge [->,bend right,"Batches\\\texttt{\string[Dataframe\string]}"',midway,align=center] (mo.0);
+        (cr.137) edge [arrows={-Stealth[harpoon]},"\texttt{\string[Dataframe/json\string]}\\Pipeline"',midway,align=center] (cl.223);
+  \draw (db.227) edge [arrows={-Stealth[harpoon]},"Batches\\\texttt{\string[Dataframe\string]}",midway,align=center] (ag.133)
+        (ag.137) edge [arrows={-Stealth[harpoon]},"\texttt{\string[Dataframe\string]}\\Episode"',midway,align=center,pos=0.6] (db.223);
+  \draw (ag.92) edge [arrows={-Stealth[harpoon]},"\texttt{\string[Dataframe\string]}\\observation"',midway,align=center] (mo.268)
+        (mo.272) edge [arrows={-Stealth[harpoon]},"\texttt{\string[Dataframe\string]}\\action"',midway,align=center] (ag.88);
+  \draw (ag.0) edge [->,bend right,"\texttt{\string[Dataframe\string]}\\Batches"',midway,align=center] (mo.0);
   \draw (mo) edge[->,loop left,out=225,in=135, looseness=5] node[font=\sffamily\small,right]{Train} (mo);
-  \draw (av.2) edge [->,dotted,"Config.\&Sched." below,font=\sffamily\footnotesize] (cr.178);
-  \draw (kv) edge [<-,dotted,"config.\&sched.",font=\sffamily\tiny] (av);
-  \draw (av) edge [->,dotted,"config.\&sched."] (cl);
+  \draw (av.2) edge [->,dotted,"config." above,"sched." below,font=\sffamily\tiny] (cr.178);
+  \draw (kv) edge [<-,dotted,"config." above,"sched." below,font=\sffamily\tiny] (av);
+  \draw (av) edge [->,dotted,"config." above,"sched." below,font=\sffamily\tiny] (cl);
   \draw (v) edge [<->,"CAN" above, "UDP" below] (kv);
   \draw (cl.137) edge [<->, densely dash dot dot,bend right,"OTA"] node[hw,minimum width=1cm,minimum height=0.5cm,solid,very near end, sloped,]{TBox} (v.133);
 \end{tikzpicture}
